@@ -1,0 +1,62 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: ee97bb1cdbc43388fb8c31d847691e4e2134e8f16db249a0619d018d7a691132
+
+name:           banking-system
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/banking-system#readme>
+homepage:       https://github.com/githubuser/banking-system#readme
+bug-reports:    https://github.com/githubuser/banking-system/issues
+author:         Author name here
+maintainer:     example@example.com
+copyright:      2021 Author name here
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/githubuser/banking-system
+
+library
+  exposed-modules:
+      Lib
+  other-modules:
+      Paths_banking_system
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+  default-language: Haskell2010
+
+executable banking-system-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_banking_system
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      banking-system
+    , base >=4.7 && <5
+  default-language: Haskell2010
+
+test-suite banking-system-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_banking_system
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      banking-system
+    , base >=4.7 && <5
+  default-language: Haskell2010
