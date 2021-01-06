@@ -46,6 +46,8 @@ executable banking-system-exe
   build-depends:
       banking-system
     , base >=4.7 && <5
+    , random
+
   default-language: Haskell2010
 
 test-suite banking-system-test
