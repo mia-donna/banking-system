@@ -6,19 +6,72 @@ import System.Random
 -- first define the types
 type Winner = String
 type Name = String
-type AccountBalance =  Double
+type AccountBalance =  Int
 
 -- Customer Data type - record syntax
 data Customer = Customer {
   name :: Name,
   accountBalance :: AccountBalance,
   accountNumber :: AccountNumber
-} deriving (Show) 
+} deriving (Eq, Show) 
 
 --  DATATYPE FOR ACCOUNT NUMBER : algebraic datatype is where we just have a list of constants, an enumerated type
 data AccountNumber = One | Two | Three | Four | Five | Six | Seven | Eight | Nine | Ten  deriving (Show, Eq)
 
---data Person = Person String String Int Float String String deriving (Show)  
+----TEST
+---functions
+
+deposit :: Customer -> Int -> IO (Customer)
+withdraw :: Customer -> Int -> IO (Customer)
+transfer :: Customer -> Customer -> Int -> IO (Customer, Customer)
+printbal :: Customer -> Int
+
+{-
+  Function Declarations
+-}
+-- amount must be greater than 0
+deposit account amount
+  | amount > 0 = return account { accountBalance =  (bal + amount)}
+  | otherwise = return account
+  where bal = accountBalance account
+
+-- amount must be greater than 0
+withdraw account amount
+  | bal < amount = return account
+  | amount > 0 = return account { accountBalance =  (bal - amount)}
+  | otherwise = return account
+  where bal = accountBalance account
+
+-- transfer from an acount to another account a desired amount
+transfer from to amount
+  | amount <= 0 = return (from, to)
+  | accountBalance from < amount = return (from, to)
+  | otherwise = return ((from { accountBalance =  ((accountBalance from) - amount)}),(to { accountBalance =  ((accountBalance to) + amount)}))
+
+
+-- Print the Balance
+printbal account = accountBalance account
+
+main :: IO ()
+main = do
+   -- Create an account named B1 with a 0 balance
+  let b1 = Customer {name = "B1", accountBalance = 50, accountNumber = One }
+  b1 <- deposit b1 10 -- Deposit $10 into B1
+  print b1
+
+  -- Create an account named B2 with a 0 balance
+  let b2 = Customer {name = "B2", accountBalance = 20, accountNumber = Two }
+  b2 <- deposit b2 20 -- Deposit $20 into B2
+  print b2
+  b2 <- withdraw b2 10 -- Withdraw $10 into B2
+  print b2
+
+  (b1, b2) <- transfer b1 b2 10 -- Transfer $10 from B1 into B2
+  print b1
+  print b2
+
+
+{-
 
 -- Maps Int to Customer Account Numbers
 mapIntToCustomer :: Int -> AccountNumber
@@ -99,7 +152,7 @@ main = do
 
 
 
-
+-}
 
 
 
