@@ -6,18 +6,19 @@ import System.Random
 -- first define the types
 type Winner = String
 type Name = String
-newtype AccountBalance = AccountBalance Double
-  deriving Show
-type AccountNumber' = Int
+type AccountBalance =  Double
 
+-- Customer Data type - record syntax
 data Customer = Customer {
   name :: Name,
   accountBalance :: AccountBalance,
   accountNumber :: AccountNumber
 } deriving (Show) 
 
--- Name | AccountNumber | AccountBalance deriving (Show, Eq)
+--  DATATYPE FOR ACCOUNT NUMBER : algebraic datatype is where we just have a list of constants, an enumerated type
 data AccountNumber = One | Two | Three | Four | Five | Six | Seven | Eight | Nine | Ten  deriving (Show, Eq)
+
+--data Person = Person String String Int Float String String deriving (Show)  
 
 -- Maps Int to Customer Account Numbers
 mapIntToCustomer :: Int -> AccountNumber
@@ -59,7 +60,7 @@ judge initial_random free box winner = do
     print $ "Account Name: " ++ name ++ " got " ++ show(r2)
     if r1 == r2 then do
         putStrLn "************************************"
-        putStrLn $ " Account Name: " ++ name ++ " has won!"
+        putStrLn $ " Account Name: " ++ name ++ " will be transfered funds from " ++ show(r2)
         putStrLn "************************************"
         putMVar winner name
     else do
