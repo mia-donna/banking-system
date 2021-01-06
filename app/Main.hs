@@ -6,11 +6,20 @@ import System.Random
 -- first define the types
 type Winner = String
 type Name = String
-type AccountBalance = Int
+newtype AccountBalance = AccountBalance Double
+  deriving Show
+type AccountNumber' = Int
 
-data Customer = Name | AccountNumber | AccountBalance deriving (Show, Eq)
+data Customer = Customer {
+  name :: Name,
+  accountBalance :: AccountBalance,
+  accountNumber :: AccountNumber
+} deriving (Show) 
+
+-- Name | AccountNumber | AccountBalance deriving (Show, Eq)
 data AccountNumber = One | Two | Three | Four | Five | Six | Seven | Eight | Nine | Ten  deriving (Show, Eq)
 
+-- Maps Int to Customer Account Numbers
 mapIntToCustomer :: Int -> AccountNumber
 mapIntToCustomer n = case r of
       0 -> One
@@ -31,6 +40,9 @@ randomGenerator = do
     n <- randomIO :: IO Int
     let chooseRandomAccountNumber = mapIntToCustomer n
     return chooseRandomAccountNumber
+
+-- trying to get a function to get a random number between 10 - 50 for the transfer
+    
 
 process :: Name -> MVar () -> MVar (AccountNumber, Name) -> IO () 
 process name free box = do
@@ -62,13 +74,22 @@ main = do
     initial_random <- newMVar random
     winner <- newEmptyMVar
     putStrLn "************************************"
-    putStrLn $ "Random value is: " ++ (show random)
+    putStrLn $ "Random account that will perform the transfer is: " ++ (show random)
+    -- putStrLn $ "That account belongs to:  " ++ name
+    -- here can add "Random amount they will transfer is:" " and add a function to genrate a number between 10-50
     putStrLn "************************************"
     box <- newEmptyMVar
 
     forkIO (process "Mia" free box)
     forkIO (process "Tom" free box)
     forkIO (process "Sonia" free box)
+    forkIO (process "Dudley" free box)
+    forkIO (process "Massimo" free box)
+    forkIO (process "Lily" free box)
+    forkIO (process "Elsa" free box)
+    forkIO (process "Donna" free box)
+    forkIO (process "Franco" free box)
+    forkIO (process "Luca" free box)
 
     forkIO (judge initial_random free box winner)
 
@@ -76,7 +97,28 @@ main = do
     putStrLn $ "THE WINNER IS " ++ w
 
 
+
+
+
+
+
 -- in MAIN could
 -- 1. Add   10 Customers
 -- 2. Create the Customer threads 
 -- 3. 
+
+-- for reading balance at the end can look something like this:
+{-balance :: Account -> IO Int
+balance account = readTVarIO account
+-}
+
+
+{-
+To complete this exercise you need to implement the following functions:
+
+openAccount - Called at the start of each test. Returns a BankAccount.
+closeAccount - Called at the end of each test.
+getBalance - Get the balance of the bank account.
+updateBalance - Increment the balance of the bank account by the given amount.
+
+-}
