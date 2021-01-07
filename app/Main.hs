@@ -24,7 +24,7 @@ data AccountNumber = One | Two | Three | Four | Five | Six | Seven | Eight | Nin
 deposit :: Customer -> Int -> IO (Customer)
 withdraw :: Customer -> Int -> IO (Customer)
 transfer :: Customer -> Customer -> Int -> IO (Customer, Customer)
-printbal :: Customer -> Int
+--printbal :: Customer -> Int
 
 {-
   Function Declarations
@@ -50,25 +50,50 @@ transfer from to amount
 
 
 -- Print the Balance
-printbal account = accountBalance account
+--printbal account = accountBalance account
 
 main :: IO ()
 main = do
-   -- Create an account named B1 with a 0 balance
-  let b1 = Customer {name = "B1", accountBalance = 50, accountNumber = One }
-  b1 <- deposit b1 10 -- Deposit $10 into B1
-  print b1
+   -- Create an account named C1 with a 50 balance
+  let c1 = Customer {name = "C1", accountBalance = 50, accountNumber = One }
+  c1 <- deposit c1 10 -- Deposit $10 into C1
+  print c1
 
-  -- Create an account named B2 with a 0 balance
-  let b2 = Customer {name = "B2", accountBalance = 20, accountNumber = Two }
-  b2 <- deposit b2 20 -- Deposit $20 into B2
-  print b2
-  b2 <- withdraw b2 10 -- Withdraw $10 into B2
-  print b2
+  -- Create an account named C2 with a 20 balance
+  let c2 = Customer {name = "C2", accountBalance = 20, accountNumber = Two }
+  c2 <- deposit c2 20 -- Deposit $20 into C2
+  print c2
+  c2 <- withdraw c2 10 -- Withdraw $10 into C2
+  print c2
 
-  (b1, b2) <- transfer b1 b2 10 -- Transfer $10 from B1 into B2
-  print b1
-  print b2
+  (c1, c2) <- transfer c1 c2 10 -- Transfer $10 from C1 into C2
+  print c1
+  print c2
+
+-- Create an account named C3 with a 0 balance
+  let c3 = Customer {name = "C3", accountBalance = 20, accountNumber = Three}
+-- Create an account named C4 with a 0 balance
+  let c4 = Customer {name = "C4", accountBalance = 20, accountNumber = Four}
+-- Create an account named C5 with a 0 balance
+  let c5 = Customer {name = "C5", accountBalance = 20, accountNumber = Five}
+-- Create an account named C6 with a 0 balance
+  let c6 = Customer {name = "C6", accountBalance = 20, accountNumber = Six}
+-- Create an account named C7 with a 0 balance
+  let c7 = Customer {name = "C3", accountBalance = 20, accountNumber = Seven}
+-- Create an account named C8 with a 0 balance
+  let c8 = Customer {name = "C8", accountBalance = 20, accountNumber = Eight}
+-- Create an account named C9 with a 0 balance
+  let c9 = Customer {name = "C9", accountBalance = 20, accountNumber = Nine}
+-- Create an account named C10 with a 0 balance
+  let c10 = Customer {name = "C10", accountBalance = 20, accountNumber = Ten}
+  print c3
+  print c4
+  print c5
+  print c6
+  print c7
+  print c8
+  print c9
+  print c10
 
 
 {-
