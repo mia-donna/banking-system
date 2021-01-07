@@ -18,13 +18,34 @@ data Customer = Customer {
 --  DATATYPE FOR ACCOUNT NUMBER : algebraic datatype is where we just have a list of constants, an enumerated type
 data AccountNumber = One | Two | Three | Four | Five | Six | Seven | Eight | Nine | Ten  deriving (Show, Eq)
 
+-- Function to assign (by mapping) each customer account a number
+mapIntToCustomer :: Int -> AccountNumber
+mapIntToCustomer n = case r of
+      0 -> One
+      1 -> Two
+      2 -> Three
+      3 -> Four
+      4 -> Five
+      5 -> Six
+      6 -> Seven
+      7 -> Eight
+      8 -> Nine
+      9 -> Ten 
+    where r = mod n 10 
+
+-- Randomly choose an account
+randomGenerator :: IO AccountNumber
+randomGenerator = do
+    n <- randomIO :: IO Int
+    let chooseRandomAccountNumber = mapIntToCustomer n
+    return chooseRandomAccountNumber    
+
 ----TEST
 ---functions
 
 deposit :: Customer -> Int -> IO (Customer)
 withdraw :: Customer -> Int -> IO (Customer)
 transfer :: Customer -> Customer -> Int -> IO (Customer, Customer)
---printbal :: Customer -> Int
 
 {-
   Function Declarations
@@ -48,9 +69,14 @@ transfer from to amount
   | accountBalance from < amount = return (from, to)
   | otherwise = return ((from { accountBalance =  ((accountBalance from) - amount)}),(to { accountBalance =  ((accountBalance to) + amount)}))
 
-
--- Print the Balance
---printbal account = accountBalance account
+-- WIPcreate an IO action for forkIO
+process :: Customer -> MVar () -> MVar (Customer) -> IO () 
+process customer free box = do
+    f <- takeMVar free
+   -- d1 <- diceThrow
+    putMVar box (customer)
+    threadDelay 100
+    process customer free box
 
 main :: IO ()
 main = do
@@ -69,7 +95,7 @@ main = do
   (c1, c2) <- transfer c1 c2 10 -- Transfer $10 from C1 into C2
   print c1
   print c2
-
+  putStrLn $ "CREATING 10 CUSTOMERS... " 
 -- Create an account named C3 with a 0 balance
   let c3 = Customer {name = "C3", accountBalance = 20, accountNumber = Three}
 -- Create an account named C4 with a 0 balance
@@ -94,6 +120,26 @@ main = do
   print c8
   print c9
   print c10
+  
+  free <- newMVar ()
+  random <- randomGenerator
+  initial_random <- newMVar random
+  winner <- newEmptyMVar
+  putStrLn "************************************"
+  putStrLn $ "Random account that will perform the transfer is: " ++ (show random)
+  putStrLn "************************************"
+  box <- newEmptyMVar
+  
+  forkIO (process c1 free box)
+
+
+  w <- takeMVar winner
+  putStrLn $ "THE WINNER IS " ++ w
+
+
+  --free <- newMVar ()
+  --box <- newEmptyMVar
+  --forkIO (process c1 free box)
 
 
 {-
